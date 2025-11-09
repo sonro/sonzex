@@ -25,5 +25,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Setup project
 
-[Unreleased]: https://github.com/sonro/flat-list/compare/v0.0.0...HEAD
-[0.0.0]: https://github.com/sonro/flat-list/releases/tag/v0.0.0
+[Unreleased]: https://github.com/sonro/sonzex/compare/v0.0.0...HEAD
+[0.0.0]: https://github.com/sonro/sonzex/releases/tag/v0.0.0

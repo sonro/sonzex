@@ -1,7 +1,7 @@
 const std = @import("std");
 const testing = std.testing;
 
-const FlatList = @import("flat_list").FlatList;
+const FlatList = @import("sonzex").FlatList;
 
 const Type = struct { Obj: type, List: type };
 const TestFn = fn (comptime T: Type, test_data: anytype) anyerror!void;
