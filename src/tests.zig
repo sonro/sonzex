@@ -1,5 +1,6 @@
 const std = @import("std");
 const testing = std.testing;
+const allocator = testing.allocator;
 
 const FlatList = @import("sonzex").FlatList;
 
@@ -9,15 +10,31 @@ const TestFn = fn (comptime T: Type, test_data: anytype) anyerror!void;
 fn testEmpty(comptime T: Type, _: anytype) !void {
     const list = T.List.empty;
     try testing.expectEqual(0, list.len());
+    try testing.expectEqualSlices(T.Obj, &.{}, list.slice());
 }
 
 test "empty list" {
     try testLists(testEmpty, .{});
 }
 
+fn testAppendOne(comptime T: Type, _: anytype) !void {
+    var list = T.List.empty;
+    const value = T.Obj.fixtures[T.Obj.fixtures.len - 1];
+    try list.append(allocator, value);
+    try testing.expectEqual(1, list.len());
+    try testing.expectEqualSlices(T.Obj, &.{value}, list.slice());
+}
+
+test "append 1" {
+    try testLists(testAppendOne, .{});
+}
+
 fn testLists(test_fn: TestFn, test_data: anytype) !void {
     inline for (types) |T| {
-        try test_fn(T, test_data);
+        test_fn(T, test_data) catch |err| {
+            std.debug.print("For type '{s}'\n", .{@typeName(T.Obj)});
+            return err;
+        };
     }
 }
 
@@ -42,6 +59,7 @@ const ScalerObj = struct {
         .{ .a = 0.1, .b = 0.2 },
         .{ .a = 1.1, .b = 1.2 },
         .{ .a = 2.1, .b = 2.2 },
+        .{ .a = 3.1, .b = 3.2 },
     };
 };
 

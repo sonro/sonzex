@@ -16,6 +16,13 @@ pub fn build(b: *std.Build) void {
         .root_module = lib_mod,
     });
 
+    const check_exe = b.addExecutable(.{
+        .name = "sonzex",
+        .root_module = lib_mod,
+    });
+    const check = b.step("check", "Check if compiles");
+    check.dependOn(&check_exe.step);
+
     const run_lib_tests = b.addRunArtifact(lib_tests);
     const test_step = b.step("test", "Run tests");
     test_step.dependOn(&run_lib_tests.step);
